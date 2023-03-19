@@ -1,38 +1,43 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 public class Game {
-    private ArrayList<Player> reggedPlayers = new ArrayList<>();
+    private HashMap<String, Player> reggedPlayers = new HashMap<>();
 
-    public ArrayList<Player> getReggedPlayers() {
+    /**
+     * Я решил, что в ключ для каждого игрока будет дублироваться его имя
+     */
+
+    public HashMap<String, Player> getReggedPlayers() {
         return reggedPlayers;
     }
 
-    public void registerForTournmt(Player newPlayer) { /** метод решистрации с защитой от дублирования объектов игроков */
-        if (reggedPlayers.contains(newPlayer) == false) {
-            reggedPlayers.add(newPlayer);
-        }
+    public void registerForTournmt(Player newPlayerValue) { /** метод регистрации с защитой от дублирования игроков */
+        String newPlayerKey = newPlayerValue.getPlayerName();
+        if (reggedPlayers.containsValue(newPlayerValue) == false && reggedPlayers.containsKey(newPlayerKey) == false) {
+            reggedPlayers.put(newPlayerKey, newPlayerValue);
+        } /** Т.е. сделано так, чтоб не дублировались ни ключи, ни значения */
     }
 
-    public Player findPlayerByRegName(String targetName) { /** отдельный метод для поиска игрока по имени */
+    public Player findPlayerByRegKey(String targetKey) { /** в этом задании мы меняем метод поиска: теперь ищется не значение имени игрока, а ключ */
         Player resultPlayer = new Player();
         resultPlayer = null;
-        ArrayList<Player> playerDatabase = getReggedPlayers();
+        HashMap<String, Player> playerDatabase = getReggedPlayers();
 
-        for (Player targetPlayer : playerDatabase) {
-            if (targetPlayer.getPlayerName() == targetName) {
-                resultPlayer = targetPlayer;
-            }
+        if (playerDatabase.containsKey(targetKey) == true) {
+            resultPlayer = playerDatabase.get(targetKey);
         }
         return resultPlayer;
     }
 
     public int tournmtRound(String playerName1, String playerName2) throws NotRegisteredException { /** метод, выявляющий исход турнира */
-        Player opponent1 = findPlayerByRegName(playerName1);
-        Player opponent2 = findPlayerByRegName(playerName2);
+        Player opponent1 = findPlayerByRegKey(playerName1);
+        Player opponent2 = findPlayerByRegKey(playerName2);
 
         /** Сперва делается проверка, зарегистрированы ли участники */
 
-        if (opponent1 == null) { /** способ поумнее */
+        if (opponent1 == null) {
             throw new NotRegisteredException("Пользователь с именем " + playerName1 + " не зарегистрирован");
         } else if (opponent2 == null) {
             throw new NotRegisteredException("Пользователь с именем " + playerName2 + " не зарегистрирован");

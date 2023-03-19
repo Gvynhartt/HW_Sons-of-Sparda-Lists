@@ -15,17 +15,17 @@ public class GameTest {
     Player player7 = new Player(7, "Ku6ePnoQ_u3_NAV1", 404);
 
     @Test
-    public void shdRegisterPlayerNormal() { /** обычное добавление массива в пустой список */
+    public void shdRegisterPlayerNormal() { /** обычное добавление массива в пустую карту */
         ofThrones.registerForTournmt(player1);
 
         Player expected = player1;
-        Player actual = ofThrones.getReggedPlayers().get(0);
+        Player actual = ofThrones.getReggedPlayers().get("abobus3450d");
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void shdRegisterPlayerIfDuplicate() { /** проверяет, какой длины список, если добавляемый объект уже есть в списке */
+    public void shdRegisterPlayerIfDuplicate() { /** проверяет, какой длины карта, если добавляемый объект уже есть в списке */
         ofThrones.registerForTournmt(player1);
         ofThrones.registerForTournmt(player1);
 
@@ -42,7 +42,7 @@ public class GameTest {
         ofThrones.registerForTournmt(player3);
 
         Player expected = player2;
-        Player actual = ofThrones.findPlayerByRegName("v4duhWin");
+        Player actual = ofThrones.findPlayerByRegKey("v4duhWin");
 
         Assertions.assertEquals(expected, actual);
     }
@@ -54,7 +54,7 @@ public class GameTest {
         ofThrones.registerForTournmt(player3);
 
         Player expected = null;
-        Player actual = ofThrones.findPlayerByRegName("semen1984stalnoj");
+        Player actual = ofThrones.findPlayerByRegKey("semen1984stalnoj");
 
         Assertions.assertEquals(expected, actual);
     }
@@ -64,8 +64,8 @@ public class GameTest {
         ofThrones.registerForTournmt(player5);
         ofThrones.registerForTournmt(player6);
 
-        Player expected = player6;
-        Player actual = ofThrones.findPlayerByRegName("zurin1825");
+        Player expected = player5;
+        Player actual = ofThrones.findPlayerByRegKey("zurin1825");
 
         Assertions.assertEquals(expected, actual);
     }
@@ -139,7 +139,7 @@ public class GameTest {
         ofThrones.registerForTournmt(player6);
 
         int expected = 0;
-        int actual = ofThrones.tournmtRound("zurin1825", "zurin1825");
+        int actual = ofThrones.tournmtRound("zurin1825", "zurin1825"); /** т.е. получается, что игрок сравнивается сам с собой */
 
         Assertions.assertEquals(expected, actual);
     }
